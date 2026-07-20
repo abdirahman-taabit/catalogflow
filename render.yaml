@@ -2,11 +2,15 @@ databases:
   - name: catalogflow-db
     databaseName: catalogflow
     user: catalogflow
+    plan: free
+    region: frankfurt
 
 services:
   - type: web
     name: catalogflow-api
     runtime: docker
+    plan: free
+    region: frankfurt
     rootDir: apps/backend
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/health
