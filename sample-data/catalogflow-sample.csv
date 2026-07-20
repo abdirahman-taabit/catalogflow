@@ -1,0 +1,61 @@
+sku,title,description,category
+KEY-2001,Wireless mechanical keyboard,Compact wireless keyboard with tactile switches and a rechargeable battery for home or office use.,Computer accessories
+MSE-2002,Ergonomic wireless mouse,Comfortable wireless mouse with quiet buttons and adjustable tracking for daily productivity.,Computer accessories
+MON-2003,27 inch QHD monitor,Crisp QHD display with an adjustable stand and USB-C connectivity for modern workspaces.,Computer accessories
+HUB-2004,Seven port USB-C hub,Connect displays storage and power through one compact aluminium hub.,Computer accessories
+STD-2005,Aluminium laptop stand,Stable laptop stand with adjustable height and a ventilated platform.,Computer accessories
+CAM-2006,COMPACT TRAVEL CAMERA,12 MP camera.,Photography
+TRI-2007,Travel camera tripod,Lightweight folding tripod with a stable ball head and quick-release plate.,Photography
+LNS-2008,Portrait camera lens,Bright prime lens designed for clear portraits and soft background separation.,Photography
+SPK-2009,Portable room speaker,Balanced sound splash resistance and twelve hours of playback in a compact enclosure.,Audio
+AUD-2010,Everyday active headphones,Lightweight wireless headphones with 30-hour battery life and soft memory-foam cushions.,Audio
+EAR-2011,WIRED IN EAR HEADPHONES,Simple wired earphones.,Audio
+MIC-2012,USB podcast microphone,Cardioid USB microphone with a desktop stand and direct headphone monitoring.,Audio
+BOT-2013,Stainless steel bottle,Double-wall insulated bottle that keeps drinks cold for 24 hours.,Kitchen and dining
+MUG-2014,Ceramic travel mug,Leak-resistant ceramic mug with a silicone sleeve and reusable lid.,Kitchen and dining
+PAN-2015,Non-stick sauté pan,Durable sauté pan with an even-heating base and comfortable stay-cool handle.,Kitchen and dining
+KTL-2016,ELECTRIC KETTLE,,Kitchen and dining
+CHR-2017,Ergonomic desk chair,Adjustable lumbar support breathable mesh back and durable rolling base for everyday office work.,Furniture
+DSK-2018,Compact standing desk,Electric standing desk with programmable heights and a durable scratch-resistant top.,Furniture
+SHE-2019,Modular storage shelf,Flexible storage shelf with tool-free assembly and adjustable compartments.,Furniture
+LMP-2020,Minimal task lamp,Focused warm light with three brightness settings and a compact weighted base.,Home office
+BAG-2021,Commuter laptop bag,,Bags
+TOTE-2022,Canvas market tote,Reinforced cotton tote with interior pockets and comfortable shoulder straps.,Bags
+PCH-2023,TECH ACCESSORY POUCH,small pouch,Bags
+BPK-2024,Weatherproof day backpack,Lightweight backpack with padded laptop storage and a weather-resistant outer shell.,Bags
+JKT-2025,Packable rain jacket,Breathable waterproof jacket that packs into its own pocket for easy travel.,Apparel
+SHO-2026,Everyday walking shoes,Cushioned walking shoes with a flexible sole and breathable knit upper.,Apparel
+CAP-2027,CLASSIC COTTON CAP,,Apparel
+SCK-2028,Merino crew socks,Soft merino-blend socks with reinforced heels and moisture management.,Apparel
+MAT-2029,Natural rubber yoga mat,Supportive non-slip yoga mat made with dense natural rubber.,Fitness
+ROL-2030,Textured foam roller,Firm textured roller for warmups mobility sessions and post-training recovery.,Fitness
+BND-2031,Resistance band set,Five color-coded resistance bands with handles anchors and a carry bag.,Fitness
+BLK-2032,YOGA BLOCK,foam block,Fitness
+NTB-2033,Dotted project notebook,Hardcover dotted notebook with numbered pages and a lay-flat binding.,Stationery
+PEN-2034,Precision gel pen set,Smooth quick-drying gel pens with fine tips for notes planning and sketching.,Stationery
+PLN-2035,Weekly desk planner,Undated weekly planner with priority space habit tracking and project notes.,Stationery
+FLD-2036,DOCUMENT FOLDER,,Stationery
+CAB-2037,Braided USB-C cable,Durable two-metre charging cable with reinforced connectors and fast data transfer.,Computer accessories
+CHG-2038,65W compact wall charger,Compact fast charger with two USB-C ports and intelligent power distribution.,Computer accessories
+PWR-2039,Slim power bank,Portable 10000 mAh power bank with USB-C fast charging and a clear charge indicator.,Computer accessories
+KEY-2040,wireless keyboard,basic keyboard,
+MSE-2041,travel mouse,small mouse,
+MON-2042,Ultra wide work monitor,Large curved display with picture-by-picture support and an ergonomic stand.,Computer accessories
+CAM-2043,Pocket action camera,Compact waterproof action camera with stabilised 4K recording and simple controls.,Photography
+SPK-2044,DESKTOP SPEAKERS,Two speakers.,Audio
+BOT-2045,Glass water bottle,Protective silicone sleeve leak-resistant cap and a wide opening for easy cleaning.,Kitchen and dining
+CHR-2046,MEETING ROOM CHAIR,Stackable chair.,Furniture
+LMP-2047,Clamp reading light,Space-saving reading light with adjustable color temperature and a flexible arm.,Home office
+BAG-2048,Weekender travel bag,Structured carry-on bag with shoe storage and a removable shoulder strap.,Bags
+JKT-2049,INSULATED COMMUTER JACKET,Warm jacket.,Apparel
+MAT-2050,Foldable exercise mat,Thick folding mat for stretching bodyweight training and compact storage.,Fitness
+NTB-2051,Recycled paper notebook,Minimal notebook made with recycled paper and a durable stitched binding.,Stationery
+DSK-2052,Oak desk organizer,Modular wooden organizer for pens notes cables and small desk accessories.,Home office
+HDP-2053,Open-back studio headphones,Detailed open-back headphones for careful listening mixing and editing.,Audio
+KBD-2054,Low profile office keyboard,Quiet low-profile keyboard with multi-device pairing and dedicated shortcuts.,Computer accessories
+KBD-2054,Duplicate office keyboard,Duplicate SKU row included to demonstrate rejection reporting.,Computer accessories
+bad sku,Invalid SKU example,This row intentionally uses spaces in the SKU for validation testing.,General merchandise
+X,,Missing title example,General merchandise
+Q?,Broken SKU punctuation,This row intentionally uses unsupported punctuation in the SKU.,General merchandise
+BOT-2013,Duplicate bottle,This row duplicates an earlier SKU and should be rejected.,Kitchen and dining
+
