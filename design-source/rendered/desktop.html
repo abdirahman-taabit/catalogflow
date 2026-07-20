@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CatalogFlow — Desktop</title>
+  <style>:root {
+  --canvas: #dedbd2;
+  --paper: #f8f6f0;
+  --surface: #ffffff;
+  --surface-soft: #efede6;
+  --graphite: #20231f;
+  --graphite-2: #2b2f2a;
+  --ink: #20231f;
+  --muted: #6f746d;
+  --border: #d9d7cf;
+  --border-strong: #b9bbb3;
+  --moss: #52654a;
+  --moss-dark: #3e4f39;
+  --moss-soft: #e4eadf;
+  --amber: #a76a17;
+  --amber-soft: #f6ead3;
+  --red: #a84c43;
+  --red-soft: #f5dfdc;
+  --blue: #42627d;
+  --blue-soft: #dfe8ef;
+  --shadow-panel: 0 12px 32px rgba(32, 35, 31, .08);
+  --shadow-dialog: 0 24px 64px rgba(32, 35, 31, .18);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: Inter, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select { font: inherit; }
+
+.stage { width: max-content; min-width: 100%; padding: 64px; }
+.stage-title { margin: 0 0 12px; font-size: 44px; line-height: 1.05; letter-spacing: -.045em; }
+.stage-subtitle { margin: 0 0 40px; color: var(--muted); font-size: 16px; line-height: 1.6; }
+.board-row { display: flex; align-items: flex-start; gap: 48px; margin-bottom: 48px; }
+.artboard {
+  flex: none;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid rgba(32,35,31,.12);
+  box-shadow: var(--shadow-panel);
+}
+.screen-label { margin: 0 0 12px; color: #454a44; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.desktop-1440 { width: 1440px; min-height: 960px; }
+.desktop-1280 { width: 1280px; min-height: 900px; }
+.tablet-768 { width: 768px; min-height: 1024px; }
+.mobile-390 { width: 390px; min-height: 844px; }
+
+.topbar {
+  height: 72px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; border-bottom: 1px solid var(--border); background: rgba(248,246,240,.96);
+}
+.brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 760; letter-spacing: -.03em; }
+.brand-mark {
+  width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
+  background: var(--moss); color: white; font-size: 12px; font-weight: 800;
+}
+.nav-links { display: flex; align-items: center; gap: 28px; color: #575c55; font-size: 14px; }
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.btn {
+  min-height: 40px; border-radius: 8px; border: 1px solid transparent; padding: 10px 16px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 14px; line-height: 1; font-weight: 680; letter-spacing: -.01em;
+}
+.btn-primary { background: var(--moss); color: white; border-color: var(--moss); }
+.btn-primary-dark { background: var(--graphite); color: white; border-color: var(--graphite); }
+.btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--border-strong); }
+.btn-quiet { background: transparent; color: var(--ink); border-color: transparent; }
+.btn-danger { background: var(--red-soft); color: #7f332d; border-color: #e8c4c0; }
+.btn-disabled { background: #ecebe6; color: #a1a49e; border-color: #e3e2dd; }
+.btn-small { min-height: 34px; padding: 8px 12px; font-size: 12px; }
+
+.app-shell { display: grid; grid-template-columns: 232px 1fr; min-height: inherit; }
+.sidebar {
+  min-height: inherit; background: var(--graphite); color: white; padding: 26px 18px;
+  display: flex; flex-direction: column;
+}
+.sidebar .brand { padding: 0 10px 24px; }
+.sidebar .brand-mark { background: #dfe8d8; color: var(--graphite); }
+.sidebar-section { margin-top: 22px; padding: 0 10px; color: #92988f; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.sidebar-nav { display: grid; gap: 5px; margin-top: 8px; }
+.nav-item { padding: 11px 12px; border-radius: 8px; color: #c7cbc4; font-size: 14px; font-weight: 580; }
+.nav-item.active { background: #394038; color: white; }
+.sidebar-foot { margin-top: auto; border-top: 1px solid #3a3e39; padding: 18px 10px 0; color: #abb0a8; font-size: 12px; line-height: 1.55; }
+.app-main { min-width: 0; background: var(--paper); }
+.app-header { height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 34px; border-bottom: 1px solid var(--border); }
+.crumb { color: var(--muted); font-size: 13px; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-soft); font-size: 12px; font-weight: 780; }
+.content { padding: 34px; }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.eyebrow { margin: 0 0 8px; color: var(--moss); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.h1 { margin: 0; font-size: 34px; line-height: 1.08; letter-spacing: -.04em; font-weight: 760; }
+.h2 { margin: 0; font-size: 23px; line-height: 1.15; letter-spacing: -.025em; font-weight: 720; }
+.h3 { margin: 0; font-size: 16px; line-height: 1.25; letter-spacing: -.015em; font-weight: 700; }
+.sub { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.muted { color: var(--muted); }
+.mono { font-family: "Roboto Mono", Consolas, monospace; }
+
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 1px 2px rgba(32,35,31,.03); }
+.panel-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px; border-bottom: 1px solid var(--border); }
+.panel-body { padding: 22px; }
+.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 18px; }
+.stat { padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.stat-label { color: var(--muted); font-size: 11px; line-height: 1.3; font-weight: 680; }
+.stat-value { margin-top: 12px; font-size: 28px; line-height: 1; letter-spacing: -.04em; font-weight: 760; }
+.stat-note { margin-top: 10px; font-size: 11px; color: var(--moss); }
+.dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(300px, .8fr); gap: 18px; }
+
+.badge { display: inline-flex; align-items: center; min-height: 24px; padding: 4px 9px; border-radius: 999px; font-size: 11px; font-weight: 720; }
+.badge-moss { background: var(--moss-soft); color: var(--moss-dark); }
+.badge-amber { background: var(--amber-soft); color: #7a4c12; }
+.badge-red { background: var(--red-soft); color: #7f332d; }
+.badge-blue { background: var(--blue-soft); color: #304c62; }
+.badge-neutral { background: var(--surface-soft); color: #555b54; }
+.score { display: flex; align-items: center; gap: 9px; }
+.score-track { width: 72px; height: 6px; overflow: hidden; border-radius: 99px; background: #e6e5df; }
+.score-fill { height: 100%; border-radius: inherit; background: var(--moss); }
+.score-fill.warn { background: var(--amber); }
+.score-fill.bad { background: var(--red); }
+.score-num { font-size: 12px; font-weight: 760; }
+
+.table-wrap { overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+.table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.table th { padding: 12px 14px; background: #f2f0ea; color: #646a62; font-size: 10px; letter-spacing: .08em; text-align: left; text-transform: uppercase; }
+.table td { padding: 14px; border-top: 1px solid #ebe9e3; font-size: 12px; vertical-align: middle; }
+.table .title-cell { font-size: 13px; font-weight: 680; }
+.table .sku { color: #6b716a; font-family: "Roboto Mono", Consolas, monospace; font-size: 11px; }
+.table-row-alert { background: #fffcf6; }
+.missing { color: var(--red); font-size: 11px; font-weight: 690; }
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 10px; }
+.input, .select {
+  height: 40px; padding: 0 12px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: 8px;
+  color: var(--ink); font-size: 13px;
+}
+.input { min-width: 260px; }
+.input.focus { border-color: var(--moss); box-shadow: 0 0 0 3px rgba(82,101,74,.14); }
+.pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; color: var(--muted); font-size: 12px; }
+.pagination-pages { display: flex; gap: 5px; }
+.page-button { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 7px; border: 1px solid var(--border); background: white; font-size: 12px; }
+.page-button.active { background: var(--graphite); color: white; border-color: var(--graphite); }
+
+.quality-ring { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--moss) 0 82%, #e5e4de 82% 100%); }
+.quality-ring-inner { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: white; font-size: 18px; font-weight: 780; }
+.quality-list { display: grid; gap: 14px; }
+.quality-row { display: grid; gap: 7px; }
+.quality-row-head { display: flex; justify-content: space-between; color: #555b54; font-size: 12px; }
+.bar { height: 7px; border-radius: 99px; overflow: hidden; background: #ecebe6; }
+.bar > span { display: block; height: 100%; background: var(--moss); border-radius: inherit; }
+
+.review-card { padding: 24px; }
+.review-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.comparison { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 14px; align-items: stretch; }
+.comparison-pane { border: 1px solid var(--border); border-radius: 10px; padding: 18px; background: #fbfaf6; }
+.comparison-pane.suggested { background: #f3f6f0; border-color: #c8d2c2; }
+.comparison-label { margin-bottom: 12px; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.comparison-arrow { display: grid; place-items: center; color: var(--moss); font-size: 20px; font-weight: 800; }
+.rule-note { margin-top: 14px; padding: 12px 14px; border-left: 3px solid var(--moss); background: var(--moss-soft); color: #46533f; font-size: 12px; line-height: 1.5; }
+.review-actions { margin-top: 18px; display: flex; justify-content: flex-end; gap: 10px; }
+
+.timeline { display: grid; gap: 0; }
+.event { display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; padding: 15px 0; border-bottom: 1px solid #ebe9e3; }
+.event:last-child { border-bottom: 0; }
+.event-dot { margin-top: 5px; width: 9px; height: 9px; border-radius: 50%; background: var(--moss); box-shadow: 0 0 0 4px var(--moss-soft); }
+.event-title { font-size: 13px; font-weight: 680; }
+.event-text, .event-time { margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+
+.dropzone { padding: 44px; border: 1.5px dashed #aeb5aa; border-radius: 12px; background: #fbfaf6; text-align: center; }
+.drop-mark { width: 44px; height: 44px; margin: 0 auto 16px; border-radius: 10px; display: grid; place-items: center; background: var(--moss-soft); color: var(--moss); font-weight: 820; }
+.requirements { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.requirement { padding: 14px; border-radius: 9px; background: var(--surface-soft); color: #555b54; font-size: 12px; }
+.stepper { display: flex; align-items: center; margin-bottom: 26px; }
+.step { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; font-weight: 660; }
+.step-num { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #e4e3dd; font-size: 11px; font-weight: 760; }
+.step.active { color: var(--ink); }
+.step.active .step-num, .step.done .step-num { background: var(--moss); color: white; }
+.step-line { width: 74px; height: 1px; margin: 0 10px; background: var(--border-strong); }
+.summary-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.summary-box { padding: 16px; background: var(--surface-soft); border-radius: 9px; }
+.summary-box strong { display: block; margin-top: 8px; font-size: 22px; }
+.alert { padding: 14px 16px; display: flex; gap: 10px; border-radius: 9px; font-size: 12px; line-height: 1.5; }
+.alert-error { background: var(--red-soft); color: #76352f; border: 1px solid #e7c4bf; }
+.alert-success { background: var(--moss-soft); color: #405039; border: 1px solid #cad5c4; }
+.alert-warning { background: var(--amber-soft); color: #73501c; border: 1px solid #e8d4ad; }
+
+.hero { padding: 82px 80px 72px; display: grid; grid-template-columns: .86fr 1.14fr; align-items: center; gap: 72px; }
+.hero h1 { margin: 0; font-size: 58px; line-height: 1.02; letter-spacing: -.055em; font-weight: 780; }
+.hero p { margin: 22px 0 28px; max-width: 560px; color: #61665f; font-size: 17px; line-height: 1.65; }
+.hero-actions { display: flex; gap: 10px; }
+.trust-line { margin-top: 24px; color: #737871; font-size: 12px; }
+.preview { padding: 14px; border-radius: 16px; background: var(--graphite); box-shadow: var(--shadow-dialog); }
+.preview-window { border-radius: 10px; overflow: hidden; background: var(--paper); }
+.preview-top { height: 34px; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #2e332e; }
+.preview-dot { width: 7px; height: 7px; border-radius: 50%; background: #737b72; }
+.preview-content { padding: 20px; }
+.benefits { padding: 72px 80px; border-top: 1px solid var(--border); background: var(--surface); }
+.section-head { max-width: 660px; margin-bottom: 30px; }
+.benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.benefit { padding: 24px; border-radius: 10px; border: 1px solid var(--border); background: var(--paper); }
+.benefit-index { color: var(--moss); font-family: "Roboto Mono", Consolas, monospace; font-size: 11px; font-weight: 700; }
+.benefit h3 { margin: 18px 0 8px; font-size: 17px; }
+.benefit p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.workflow { padding: 72px 80px; }
+.workflow-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.workflow-step { padding: 22px; border-top: 2px solid var(--moss); background: var(--surface); }
+.workflow-step strong { display: block; margin-bottom: 8px; font-size: 14px; }
+.workflow-step span { color: var(--muted); font-size: 12px; line-height: 1.5; }
+.tech-strip { padding: 30px 80px; display: flex; align-items: center; justify-content: space-between; background: var(--graphite); color: white; }
+.tech-list { display: flex; gap: 26px; color: #c8cec6; font-size: 12px; }
+.footer { padding: 26px 80px; display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; }
+
+.token-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.swatch { overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: white; }
+.swatch-color { height: 92px; }
+.swatch-meta { padding: 12px; }
+.swatch-name { font-size: 12px; font-weight: 700; }
+.swatch-code { margin-top: 5px; color: var(--muted); font-size: 10px; }
+.foundation-board { width: 1440px; padding: 56px; }
+.foundation-section { margin-top: 42px; }
+.foundation-section:first-child { margin-top: 0; }
+.type-sample { display: grid; grid-template-columns: 180px 1fr 140px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.scale-row { display: flex; align-items: flex-end; gap: 18px; }
+.space-chip { display: grid; gap: 8px; justify-items: center; color: var(--muted); font-size: 10px; }
+.space-block { width: 48px; background: var(--moss); border-radius: 3px; }
+.radius-row, .shadow-row, .state-row { display: flex; gap: 18px; flex-wrap: wrap; }
+.radius-card { width: 152px; height: 92px; display: grid; place-items: center; background: white; border: 1px solid var(--border); }
+.shadow-card { width: 240px; height: 112px; padding: 18px; background: white; border-radius: 10px; }
+
+.component-board { width: 1440px; padding: 56px; }
+.component-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.component-cell { padding: 22px; min-height: 176px; border: 1px solid var(--border); border-radius: 10px; background: white; }
+.component-title { margin-bottom: 18px; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.component-stack { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.skeleton { height: 12px; border-radius: 6px; background: linear-gradient(90deg,#ecebe6,#f6f5f1,#ecebe6); }
+.toast { padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px; border: 1px solid var(--border); border-radius: 9px; box-shadow: var(--shadow-panel); }
+.dialog-card { width: 310px; padding: 20px; background: white; border-radius: 12px; box-shadow: var(--shadow-dialog); }
+
+.detail-grid { display: grid; grid-template-columns: 310px 1fr; gap: 18px; }
+.problem-list { display: grid; gap: 10px; margin-top: 16px; }
+.problem { padding: 12px; border-radius: 8px; background: var(--amber-soft); color: #6f4a18; font-size: 11px; line-height: 1.45; }
+.audit-mini { margin-top: 16px; }
+
+.state-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.state-card { min-height: 270px; padding: 26px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--border); border-radius: 10px; background: white; }
+.state-mark { width: 46px; height: 46px; margin-bottom: 18px; display: grid; place-items: center; border-radius: 50%; background: var(--surface-soft); color: var(--moss); font-weight: 800; }
+.state-card h3 { margin: 0 0 8px; font-size: 16px; }
+.state-card p { max-width: 260px; margin: 0 0 18px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+.mobile-shell { min-height: inherit; background: var(--paper); }
+.mobile-top { height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; border-bottom: 1px solid var(--border); }
+.mobile-content { padding: 20px 16px 92px; }
+.mobile-nav { position: absolute; left: 0; right: 0; bottom: 0; height: 70px; display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid var(--border); background: white; }
+.mobile-nav-item { display: grid; place-items: center; color: var(--muted); font-size: 10px; }
+.mobile-nav-item.active { color: var(--moss); font-weight: 760; }
+.mobile-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mobile-card { padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: white; }
+.product-card { display: grid; gap: 10px; padding: 15px; border: 1px solid var(--border); border-radius: 10px; background: white; }
+.product-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.mobile-390 { position: relative; }
+
+.flow-board { width: 1500px; padding: 56px; }
+.flow-lane { display: grid; grid-template-columns: 190px repeat(6, 1fr); align-items: center; gap: 14px; margin-top: 18px; }
+.lane-label { color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.flow-node { min-height: 102px; padding: 16px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--border); border-radius: 10px; background: white; }
+.flow-node.primary { background: var(--graphite); color: white; border-color: var(--graphite); }
+.flow-node.accent { background: var(--moss-soft); border-color: #c4d0bd; }
+.flow-node.error { background: var(--red-soft); border-color: #e2bbb6; }
+.flow-node strong { font-size: 13px; }
+.flow-node span { margin-top: 7px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+.flow-node.primary span { color: #bac0b8; }
+.connector { height: 2px; background: var(--border-strong); }
+.decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+@media (max-width: 900px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .content { padding: 26px; }
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .stats .stat:last-child { grid-column: 1 / -1; }
+  .dashboard-grid, .detail-grid { grid-template-columns: 1fr; }
+  .toolbar { align-items: stretch; flex-direction: column; }
+  .input { width: 100%; min-width: 0; }
+}
+</style>
+</head>
+<body><main class="stage"><p class="screen-label">03 · Desktop screens</p>
+  <div class="board-row"><section class="artboard desktop-1440">
+    <header class="topbar"><div class="brand"><div class="brand-mark">CF</div>CatalogFlow</div><nav class="nav-links"><span>Product</span><span>Workflow</span><span>Technology</span><span>GitHub</span></nav><div class="top-actions"><button class="btn btn-quiet">View source</button><button class="btn btn-primary">Open demo</button></div></header>
+    <div class="hero"><div><p class="eyebrow">Rule-based catalog operations</p><h1>Turn messy product data into a catalog you can trust.</h1><p>Upload a CSV, catch validation problems, review transparent improvement suggestions, and keep a complete history of every decision.</p><div class="hero-actions"><button class="btn btn-primary">Open demo</button><button class="btn btn-secondary">View on GitHub</button></div><div class="trust-line">Deterministic rules · Clear explanations · No black box</div></div>
+      <div class="preview"><div class="preview-window"><div class="preview-top"><span class="preview-dot"></span><span class="preview-dot"></span><span class="preview-dot"></span></div><div class="preview-content"><div class="review-meta"><div><div class="comparison-label">Review spotlight</div><h3 class="h3">KEY-1042 · Wireless keyboard</h3></div><span class="badge badge-amber">3 issues</span></div><div class="comparison"><div class="comparison-pane"><div class="comparison-label">Original</div><strong>WIRELESS KEYBOARD</strong><p class="sub">Compact keyboard.</p></div><div class="comparison-arrow">→</div><div class="comparison-pane suggested"><div class="comparison-label">Suggested</div><strong>Wireless Mechanical Keyboard</strong><p class="sub">Compact wireless keyboard with tactile switches and multi-device pairing.</p></div></div><div class="rule-note">Title case normalized · Description expanded from known product fields · Category matched by keyboard terms</div><div class="review-actions"><button class="btn btn-secondary btn-small">Reject</button><button class="btn btn-primary btn-small">Approve</button></div></div></div>
+    </div>
+    <section class="benefits"><div class="section-head"><p class="eyebrow">Built for responsible review</p><h2 class="h2">Quality improvements that stay understandable.</h2></div><div class="benefit-grid"><article class="benefit"><span class="benefit-index">01</span><h3>Validate before import</h3><p>See duplicate SKUs, invalid rows, and missing fields before data reaches the catalog.</p></article><article class="benefit"><span class="benefit-index">02</span><h3>Review every change</h3><p>Compare original and suggested values side by side, with the rules that produced them.</p></article><article class="benefit"><span class="benefit-index">03</span><h3>Keep a clear trail</h3><p>Imports, approvals, rejections, and product updates stay visible in a readable timeline.</p></article></div></section>
+    <section class="workflow"><div class="section-head"><p class="eyebrow">Workflow</p><h2 class="h2">From CSV to catalog confidence.</h2></div><div class="workflow-row"><div class="workflow-step"><strong>1 · Upload</strong><span>Add a CSV with SKU, title, description, and category.</span></div><div class="workflow-step"><strong>2 · Validate</strong><span>Rows are checked for duplicates, missing values, and invalid formats.</span></div><div class="workflow-step"><strong>3 · Review</strong><span>Transparent rule-based suggestions appear beside original values.</span></div><div class="workflow-step"><strong>4 · Approve</strong><span>Accepted updates are saved with a complete audit event.</span></div></div></section>
+    <section class="tech-strip"><div><strong>Simple architecture. Clear responsibilities.</strong><div style="margin-top:6px;color:#aeb5ac;font-size:12px">Designed for learning, review, and future extension.</div></div><div class="tech-list"><span>Next.js</span><span>Spring Boot</span><span>PostgreSQL</span><span>Deterministic rules</span></div></section><footer class="footer"><div class="brand"><div class="brand-mark">CF</div>CatalogFlow</div><span>Portfolio project · Transparent by design</span></footer>
+  </section></div>
+
+  <div class="board-row"><section class="artboard desktop-1440"><div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">CF</div>CatalogFlow</div><div class="sidebar-section">Workspace</div><nav class="sidebar-nav"><div class="nav-item active">Overview</div><div class="nav-item">Products</div><div class="nav-item">Imports</div><div class="nav-item">Activity</div></nav><div class="sidebar-foot">Rule-based enrichment<br><strong style="color:white">System healthy</strong></div></aside><main class="app-main"><header class="app-header"><span class="crumb">Demo workspace / Overview</span><div class="top-actions"><button class="btn btn-secondary btn-small">Import CSV</button><div class="avatar">AT</div></div></header><div class="content"><div class="page-head"><div><p class="eyebrow">Catalog health</p><h1 class="h1">Keep your catalog accurate, consistent, and ready to sell.</h1><p class="sub">Prioritize the products that need attention. Every suggestion remains under your control.</p></div><button class="btn btn-primary">Review next product</button></div>
+      <div class="stats"><div class="stat"><div class="stat-label">Total products</div><div class="stat-value">2,480</div><div class="stat-note">+216 this month</div></div><div class="stat"><div class="stat-label">Require review</div><div class="stat-value">128</div><div class="stat-note">18 fewer this week</div></div><div class="stat"><div class="stat-label">Pending suggestions</div><div class="stat-value">46</div><div class="stat-note">Ready for review</div></div><div class="stat"><div class="stat-label">Approved improvements</div><div class="stat-value">684</div><div class="stat-note">93% acceptance</div></div><div class="stat"><div class="stat-label">Average quality</div><div class="stat-value">82</div><div class="stat-note">+7 points</div></div></div>
+      <div class="dashboard-grid"><section class="panel review-card"><div class="review-meta"><div><div class="comparison-label">Review spotlight</div><h2 class="h2">Wireless mechanical keyboard</h2><p class="sub mono">KEY-1042 · Computer accessories</p></div><div style="display:flex;align-items:center;gap:12px"><span class="badge badge-moss">88% confidence</span><span class="badge badge-amber">3 issues</span></div></div><div class="comparison"><div class="comparison-pane"><div class="comparison-label">Original product data</div><strong>WIRELESS KEYBOARD</strong><p class="sub">Compact keyboard.</p><p class="missing">Missing category · description too short</p></div><div class="comparison-arrow">→</div><div class="comparison-pane suggested"><div class="comparison-label">Suggested improvement</div><strong>Wireless Mechanical Keyboard</strong><p class="sub">Compact wireless keyboard with tactile switches, multi-device pairing, and a rechargeable battery.</p><span class="badge badge-moss">Computer accessories</span></div></div><div class="rule-note">Rules applied: normalized title case, expanded short description from known fields, and matched category using keyboard-related terms.</div><div class="review-actions"><button class="btn btn-secondary">Reject</button><button class="btn btn-primary">Approve changes</button></div></section>
+      <aside style="display:grid;gap:18px"><section class="panel"><div class="panel-head"><h3 class="h3">Quality overview</h3><span class="muted" style="font-size:11px">Updated now</span></div><div class="panel-body" style="display:flex;gap:22px;align-items:center"><div class="quality-ring"><div class="quality-ring-inner">82</div></div><div class="quality-list" style="flex:1"><div class="quality-row"><div class="quality-row-head"><span>Completeness</span><strong>88%</strong></div><div class="bar"><span style="width:88%"></span></div></div><div class="quality-row"><div class="quality-row-head"><span>Consistency</span><strong>79%</strong></div><div class="bar"><span style="width:79%"></span></div></div><div class="quality-row"><div class="quality-row-head"><span>Classification</span><strong>74%</strong></div><div class="bar"><span style="width:74%"></span></div></div></div></div></section><section class="panel"><div class="panel-head"><h3 class="h3">Recent imports</h3><button class="btn btn-quiet btn-small">View all</button></div><div class="panel-body"><div class="timeline"><div class="event"><div class="event-dot"></div><div><div class="event-title">summer-catalog.csv</div><div class="event-text">216 imported · 8 rejected</div></div><div class="event-time">10 min</div></div><div class="event"><div class="event-dot" style="background:#42627d"></div><div><div class="event-title">accessories.csv</div><div class="event-text">98 imported · no errors</div></div><div class="event-time">Yesterday</div></div></div></div></section></aside></div>
+    </div></main></div></section></div>
+
+  <div class="board-row"><section class="artboard desktop-1280"><div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">CF</div>CatalogFlow</div><div class="sidebar-section">Workspace</div><nav class="sidebar-nav"><div class="nav-item">Overview</div><div class="nav-item active">Products</div><div class="nav-item">Imports</div><div class="nav-item">Activity</div></nav><div class="sidebar-foot">2,480 products<br><strong style="color:white">82 avg. quality</strong></div></aside><main class="app-main"><header class="app-header"><span class="crumb">Products / All products</span><div class="avatar">AT</div></header><div class="content"><div class="page-head"><div><p class="eyebrow">Catalog</p><h1 class="h1">Products</h1><p class="sub">Find incomplete records and move the highest-impact fixes forward.</p></div><button class="btn btn-primary">Import products</button></div><div class="toolbar"><div class="toolbar-left"><input class="input" value="Search by SKU or title"><select class="select"><option>All categories</option></select><select class="select"><option>Needs review</option></select></div><div class="toolbar-right"><button class="btn btn-secondary">Sort: Lowest quality</button><button class="btn btn-secondary">Bulk actions</button></div></div><div class="table-wrap"><table class="table"><thead><tr><th style="width:28%">Product</th><th>Category</th><th>Quality</th><th>Missing</th><th>Status</th><th>Action</th></tr></thead><tbody>
+      <tr class="table-row-alert"><td><div class="title-cell">WIRELESS KEYBOARD</div><div class="sku">KEY-1042</div></td><td><span class="missing">Uncategorized</span></td><td><div class="score"><div class="score-track"><div class="score-fill bad" style="width:42%"></div></div><span class="score-num">42</span></div></td><td><span class="missing">Description, category</span></td><td><span class="badge badge-amber">Needs review</span></td><td><button class="btn btn-primary btn-small">Review</button></td></tr>
+      <tr><td><div class="title-cell">Everyday Cotton T-Shirt</div><div class="sku">APP-2088</div></td><td>Apparel</td><td><div class="score"><div class="score-track"><div class="score-fill" style="width:91%"></div></div><span class="score-num">91</span></div></td><td>—</td><td><span class="badge badge-moss">Complete</span></td><td><button class="btn btn-secondary btn-small">Open</button></td></tr>
+      <tr class="table-row-alert"><td><div class="title-cell">STAINLESS BOTTLE</div><div class="sku">KIT-3401</div></td><td>Kitchen</td><td><div class="score"><div class="score-track"><div class="score-fill warn" style="width:63%"></div></div><span class="score-num">63</span></div></td><td><span class="missing">Keywords</span></td><td><span class="badge badge-amber">Needs review</span></td><td><button class="btn btn-primary btn-small">Review</button></td></tr>
+      <tr><td><div class="title-cell">Portable Desk Lamp</div><div class="sku">HOM-1420</div></td><td>Home office</td><td><div class="score"><div class="score-track"><div class="score-fill" style="width:86%"></div></div><span class="score-num">86</span></div></td><td>—</td><td><span class="badge badge-moss">Complete</span></td><td><button class="btn btn-secondary btn-small">Open</button></td></tr>
+      <tr><td><div class="title-cell">Noise-Cancelling Headphones</div><div class="sku">AUD-8712</div></td><td>Audio</td><td><div class="score"><div class="score-track"><div class="score-fill" style="width:78%"></div></div><span class="score-num">78</span></div></td><td><span class="missing">Keywords</span></td><td><span class="badge badge-blue">Suggestion ready</span></td><td><button class="btn btn-primary btn-small">Review</button></td></tr>
+      <tr><td><div class="title-cell">Classic Ceramic Mug</div><div class="sku">KIT-1108</div></td><td>Kitchen</td><td><div class="score"><div class="score-track"><div class="score-fill" style="width:95%"></div></div><span class="score-num">95</span></div></td><td>—</td><td><span class="badge badge-moss">Complete</span></td><td><button class="btn btn-secondary btn-small">Open</button></td></tr>
+      </tbody></table></div><div class="pagination"><span>Showing 1–20 of 2,480 products</span><div class="pagination-pages"><div class="page-button">‹</div><div class="page-button active">1</div><div class="page-button">2</div><div class="page-button">3</div><div class="page-button">…</div><div class="page-button">124</div><div class="page-button">›</div></div></div></div></main></div></section></div>
+
+  <div class="board-row"><section class="artboard desktop-1280"><div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">CF</div>CatalogFlow</div><div class="sidebar-section">Workspace</div><nav class="sidebar-nav"><div class="nav-item">Overview</div><div class="nav-item">Products</div><div class="nav-item active">Imports</div><div class="nav-item">Activity</div></nav><div class="sidebar-foot">CSV template available<br><strong style="color:white">4 columns required</strong></div></aside><main class="app-main"><header class="app-header"><span class="crumb">Imports / New import</span><div class="avatar">AT</div></header><div class="content"><div class="page-head"><div><p class="eyebrow">New catalog import</p><h1 class="h1">Import product data</h1><p class="sub">Validate before saving anything to the catalog.</p></div><button class="btn btn-secondary">Download template</button></div><div class="stepper"><div class="step done"><div class="step-num">1</div>Select file</div><div class="step-line"></div><div class="step active"><div class="step-num">2</div>Validate rows</div><div class="step-line"></div><div class="step"><div class="step-num">3</div>Review summary</div><div class="step-line"></div><div class="step"><div class="step-num">4</div>Complete</div></div><section class="panel"><div class="panel-body"><div class="dropzone"><div class="drop-mark">CSV</div><h2 class="h2">summer-catalog.csv</h2><p class="sub">Checking 224 rows for required fields, duplicate SKUs, and formatting problems.</p><div class="bar" style="max-width:560px;height:9px;margin:24px auto 8px"><span style="width:68%"></span></div><span class="muted" style="font-size:11px">152 of 224 rows validated</span></div><div class="requirements"><div class="requirement"><strong>Required columns</strong><br>sku, title, description, category</div><div class="requirement"><strong>File format</strong><br>UTF-8 encoded CSV · max 10 MB</div><div class="requirement"><strong>Validation</strong><br>Nothing is saved until you confirm</div></div></div></section><section class="panel" style="margin-top:18px"><div class="panel-head"><h3 class="h3">Live validation summary</h3><span class="badge badge-blue">Processing</span></div><div class="panel-body"><div class="summary-grid"><div class="summary-box"><span class="muted">Rows scanned</span><strong>152</strong></div><div class="summary-box"><span class="muted">Ready to import</span><strong>139</strong></div><div class="summary-box"><span class="muted">Invalid rows</span><strong style="color:var(--red)">8</strong></div><div class="summary-box"><span class="muted">Duplicate SKUs</span><strong style="color:var(--amber)">5</strong></div></div><div class="alert alert-warning" style="margin-top:16px">Rows 18, 46, 91, 104, and 118 reuse an existing SKU. They will remain excluded until corrected.</div></div></section></div></main></div></section></div>
+
+  <div class="board-row"><section class="artboard desktop-1440"><div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">CF</div>CatalogFlow</div><div class="sidebar-section">Workspace</div><nav class="sidebar-nav"><div class="nav-item">Overview</div><div class="nav-item active">Products</div><div class="nav-item">Imports</div><div class="nav-item">Activity</div></nav><div class="sidebar-foot">Product review<br><strong style="color:white">1 of 46 pending</strong></div></aside><main class="app-main"><header class="app-header"><span class="crumb">Products / KEY-1042</span><div class="top-actions"><button class="btn btn-secondary btn-small">Previous</button><button class="btn btn-secondary btn-small">Next product</button><div class="avatar">AT</div></div></header><div class="content"><div class="page-head"><div><p class="eyebrow">Product review</p><h1 class="h1">Wireless mechanical keyboard</h1><p class="sub mono">KEY-1042 · Updated 18 minutes ago</p></div><div style="display:flex;align-items:center;gap:14px"><div class="quality-ring"><div class="quality-ring-inner">42</div></div><div><strong>Quality score</strong><div class="missing">Needs attention</div></div></div></div><div class="detail-grid"><aside><section class="panel"><div class="panel-head"><h3 class="h3">Quality problems</h3><span class="badge badge-amber">3 open</span></div><div class="panel-body"><div class="problem-list"><div class="problem"><strong>Title formatting</strong><br>All-caps title reduces readability.</div><div class="problem"><strong>Description too short</strong><br>Current description has only 17 characters.</div><div class="problem"><strong>Category missing</strong><br>No category is assigned.</div></div></div></section><section class="panel audit-mini"><div class="panel-head"><h3 class="h3">Audit history</h3></div><div class="panel-body"><div class="timeline"><div class="event"><div class="event-dot"></div><div><div class="event-title">Suggestion created</div><div class="event-text">3 deterministic rules applied</div></div><div class="event-time">14:28</div></div><div class="event"><div class="event-dot" style="background:#42627d"></div><div><div class="event-title">Product imported</div><div class="event-text">summer-catalog.csv · row 42</div></div><div class="event-time">14:21</div></div></div></div></section></aside><main><section class="panel review-card"><div class="review-meta"><div><div class="comparison-label">Suggestion SUG-487</div><h2 class="h2">Review proposed improvements</h2></div><span class="badge badge-moss">88% confidence</span></div><div style="display:grid;gap:14px"><div class="comparison"><div class="comparison-pane"><div class="comparison-label">Original title</div><strong>WIRELESS KEYBOARD</strong></div><div class="comparison-arrow">→</div><div class="comparison-pane suggested"><div class="comparison-label">Suggested title</div><strong>Wireless Mechanical Keyboard</strong></div></div><div class="comparison"><div class="comparison-pane"><div class="comparison-label">Original description</div><p class="sub">Compact keyboard.</p></div><div class="comparison-arrow">→</div><div class="comparison-pane suggested"><div class="comparison-label">Suggested description</div><p class="sub" style="color:var(--ink)">Compact wireless keyboard with tactile mechanical switches, multi-device pairing, and a rechargeable battery for home or office use.</p></div></div><div class="comparison"><div class="comparison-pane"><div class="comparison-label">Original category</div><span class="missing">Not provided</span></div><div class="comparison-arrow">→</div><div class="comparison-pane suggested"><div class="comparison-label">Suggested category</div><span class="badge badge-moss">Computer accessories</span></div></div></div><div class="rule-note"><strong>Why this suggestion was created</strong><br>Rule 01 normalized all-caps text. Rule 04 expanded a short description from known fields. Rule 07 matched “keyboard” and “wireless” to Computer accessories.</div><div class="review-actions"><button class="btn btn-danger">Reject suggestion</button><button class="btn btn-primary">Approve and update product</button></div></section></main></div></div></main></div></section></div>
+
+  <div class="board-row"><section class="artboard desktop-1280"><div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">CF</div>CatalogFlow</div><div class="sidebar-section">Workspace</div><nav class="sidebar-nav"><div class="nav-item">Overview</div><div class="nav-item">Products</div><div class="nav-item">Imports</div><div class="nav-item active">Activity</div></nav><div class="sidebar-foot">Audit trail<br><strong style="color:white">All systems transparent</strong></div></aside><main class="app-main"><header class="app-header"><span class="crumb">Activity / All events</span><div class="avatar">AT</div></header><div class="content"><div class="page-head"><div><p class="eyebrow">Audit history</p><h1 class="h1">Activity</h1><p class="sub">A complete, chronological record of catalog changes and review decisions.</p></div><button class="btn btn-secondary">Export history</button></div><div class="toolbar"><div class="toolbar-left"><input class="input" value="Search products or files"><select class="select"><option>All event types</option></select><select class="select"><option>Last 30 days</option></select></div></div><section class="panel"><div class="panel-body"><div class="timeline"><div class="event"><div class="event-dot"></div><div><div class="event-title">Suggestion approved</div><div class="event-text">Wireless Mechanical Keyboard · KEY-1042 · title, description, and category updated</div></div><div class="event-time">Today · 14:32</div></div><div class="event"><div class="event-dot" style="background:#42627d"></div><div><div class="event-title">Suggestion created</div><div class="event-text">Wireless Mechanical Keyboard · 3 deterministic rules applied · 88% confidence</div></div><div class="event-time">Today · 14:28</div></div><div class="event"><div class="event-dot" style="background:#a76a17"></div><div><div class="event-title">Import completed with warnings</div><div class="event-text">summer-catalog.csv · 216 imported · 8 invalid · 5 duplicates</div></div><div class="event-time">Today · 14:21</div></div><div class="event"><div class="event-dot" style="background:#a84c43"></div><div><div class="event-title">Suggestion rejected</div><div class="event-text">Stainless Bottle · KIT-3401 · category suggestion kept unchanged</div></div><div class="event-time">Yesterday · 16:08</div></div><div class="event"><div class="event-dot"></div><div><div class="event-title">Import completed</div><div class="event-text">accessories.csv · 98 products imported · no validation errors</div></div><div class="event-time">Yesterday · 09:44</div></div></div></div></section></div></main></div></section></div>
+
+  <div class="board-row"><section class="artboard desktop-1440" style="padding:44px"><div class="page-head"><div><p class="eyebrow">Reusable system states</p><h1 class="h1">Empty, loading, success, and error</h1><p class="sub">Every interruption explains what happened and offers one clear next step.</p></div></div><div class="state-grid"><div class="state-card"><div class="state-mark">0</div><h3>Start your catalog</h3><p>Import a CSV to add products and begin measuring catalog quality.</p><button class="btn btn-primary">Import first CSV</button></div><div class="state-card"><div class="state-mark">?</div><h3>No matching products</h3><p>Try a different search term or clear one of the active filters.</p><button class="btn btn-secondary">Clear filters</button></div><div class="state-card"><div style="width:100%;display:grid;gap:14px"><div class="skeleton" style="width:38%;height:18px"></div><div class="skeleton" style="width:100%;height:42px"></div><div class="skeleton" style="width:100%;height:42px"></div><div class="skeleton" style="width:100%;height:42px"></div></div><h3 style="margin-top:22px">Loading catalog</h3><p>Fetching product quality data…</p></div><div class="state-card"><div class="state-mark" style="background:var(--red-soft);color:var(--red)">!</div><h3>Backend unavailable</h3><p>CatalogFlow could not reach the data service. Your data has not changed.</p><button class="btn btn-secondary">Try again</button></div><div class="state-card"><div class="state-mark" style="background:var(--red-soft);color:var(--red)">CSV</div><h3>Invalid CSV</h3><p>The file is missing the required “sku” column. Download the template and retry.</p><button class="btn btn-secondary">Download template</button></div><div class="state-card"><div class="state-mark" style="background:var(--moss-soft);color:var(--moss)">✓</div><h3>216 products imported</h3><p>Eight rows were rejected and five duplicate SKUs were skipped.</p><button class="btn btn-primary">View products</button></div><div class="state-card"><div class="state-mark" style="background:var(--red-soft);color:var(--red)">!</div><h3>Import failed</h3><p>The upload ended before validation finished. No products were saved.</p><button class="btn btn-secondary">Upload again</button></div><div class="state-card"><div style="width:100%;display:grid;gap:12px"><div class="skeleton" style="width:62%;height:22px"></div><div class="skeleton" style="width:34%"></div><div class="skeleton" style="width:100%;height:78px"></div><div class="skeleton" style="width:100%;height:78px"></div></div><h3 style="margin-top:20px">Loading product</h3><p>Preparing original and suggested values…</p></div><div class="state-card"><div class="dialog-card"><h3 class="h3">Approve suggested changes?</h3><p class="sub">This will update three fields and create an audit event.</p><div class="review-actions"><button class="btn btn-quiet btn-small">Cancel</button><button class="btn btn-primary btn-small">Approve</button></div></div></div></div></section></div>
+</main>
+</body>
+</html>

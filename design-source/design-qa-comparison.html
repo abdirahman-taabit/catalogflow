@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CatalogFlow design QA comparison</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 24px; background: #171a17; color: #f3f1ea; font: 14px/1.4 Arial, sans-serif; }
+      h1 { margin: 0 0 18px; font-size: 20px; }
+      main { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+      figure { margin: 0; overflow: hidden; border: 1px solid #4a5048; border-radius: 10px; background: #242824; }
+      figcaption { padding: 10px 12px; border-bottom: 1px solid #4a5048; font-weight: 700; }
+      img { display: block; width: 100%; height: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>CatalogFlow product review — approved source vs. Chrome implementation</h1>
+    <main>
+      <figure>
+        <figcaption>Approved Figma source</figcaption>
+        <img src="previews/product-details.png" alt="Approved CatalogFlow product review design in Figma" />
+      </figure>
+      <figure>
+        <figcaption>Implemented and rendered in Chrome</figcaption>
+        <img src="../docs/screenshots/product-review.png" alt="Implemented CatalogFlow product review" />
+      </figure>
+    </main>
+  </body>
+</html>
