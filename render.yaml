@@ -1,0 +1,38 @@
+databases:
+  - name: catalogflow-db
+    databaseName: catalogflow
+    user: catalogflow
+
+services:
+  - type: web
+    name: catalogflow-api
+    runtime: docker
+    rootDir: apps/backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: catalogflow-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: catalogflow-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: catalogflow-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: catalogflow-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: catalogflow-db
+          property: password
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
