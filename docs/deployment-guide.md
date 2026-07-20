@@ -1,5 +1,10 @@
 # Deployment guide
 
+## Production URLs
+
+- Frontend: [https://catalogflow-two.vercel.app](https://catalogflow-two.vercel.app)
+- Backend health: [https://catalogflow-api.onrender.com/api/health](https://catalogflow-api.onrender.com/api/health)
+
 ## GitHub Actions
 
 Every push to `main` and every pull request runs `.github/workflows/ci.yml`. The frontend job installs locked dependencies, lints, typechecks, tests, audits, and builds. The backend job installs Java 21 and runs the Maven wrapper through `verify`, including the PostgreSQL Testcontainers test when Docker is available. A repository job checks whitespace and common credential signatures.

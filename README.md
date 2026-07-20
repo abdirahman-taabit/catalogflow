@@ -6,8 +6,8 @@ The current enrichment engine is deliberately rule-based Java code. It does not 
 
 ## Live demo
 
-- Frontend: deployment in progress
-- Backend health: deployment in progress
+- Frontend: [catalogflow-two.vercel.app](https://catalogflow-two.vercel.app)
+- Backend health: [catalogflow-api.onrender.com/api/health](https://catalogflow-api.onrender.com/api/health)
 - Editable Figma design: [CatalogFlow — Product Design](https://www.figma.com/design/Ah0AkKQbQFPlNgFQrmGv56/CatalogFlow-%E2%80%94-Product-Design)
 
 ## GitHub repository
@@ -183,7 +183,7 @@ The Testcontainers integration test skips locally when Docker is unavailable and
 
 ## Deployment
 
-The Next.js app is deployed from `apps/web` to Vercel. The Spring Boot Docker image and PostgreSQL database are deployed to Render from `render.yaml`. Vercel receives `NEXT_PUBLIC_API_URL`; Render receives its database fields and the Vercel origin for CORS. Detailed steps are in [docs/deployment-guide.md](docs/deployment-guide.md).
+The Next.js app is live on Vercel at [catalogflow-two.vercel.app](https://catalogflow-two.vercel.app). The Spring Boot Docker service and PostgreSQL database are live on Render; its database-aware health endpoint is [catalogflow-api.onrender.com/api/health](https://catalogflow-api.onrender.com/api/health). Vercel receives `NEXT_PUBLIC_API_URL`; Render receives its database fields and the Vercel origin for CORS. Detailed steps are in [docs/deployment-guide.md](docs/deployment-guide.md).
 
 ## Design decisions
 
