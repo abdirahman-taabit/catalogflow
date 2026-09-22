@@ -2,11 +2,17 @@
 
 CatalogFlow is a full-stack product catalog enrichment and review platform. It accepts a CSV catalog, validates every row, highlights quality problems, creates deterministic improvement suggestions, and keeps an audit trail when a suggestion is approved or rejected.
 
-The current enrichment engine is deliberately rule-based Java code. It does not use or claim to use artificial intelligence.
+CatalogFlow separates two intelligence paths:
+
+- **Catalog AI** uses retrieval-augmented generation (RAG) to answer natural-language questions against the active CSV with row-level citations.
+- **Catalog enrichment** keeps deterministic Java quality rules and human approval for writes. AI can analyze; it cannot silently mutate product data.
+
+The short version: **retrieval grounds, the model explains, humans approve.**
 
 ## Live demo
 
 - Frontend: [catalogflow-two.vercel.app](https://catalogflow-two.vercel.app)
+- Catalog AI: [catalogflow-two.vercel.app/ai](https://catalogflow-two.vercel.app/ai)
 - Backend health: [catalogflow-api.onrender.com/api/health](https://catalogflow-api.onrender.com/api/health)
 - Editable Figma design: [CatalogFlow — Product Design](https://www.figma.com/design/Ah0AkKQbQFPlNgFQrmGv56/CatalogFlow-%E2%80%94-Product-Design)
 
@@ -19,6 +25,12 @@ The current enrichment engine is deliberately rule-based Java code. It does not 
 | Dashboard | Product review |
 | --- | --- |
 | ![CatalogFlow dashboard](docs/screenshots/dashboard.png) | ![CatalogFlow product review](docs/screenshots/product-review.png) |
+
+## AI engineering showcase
+
+The `/ai` route is stateless and demo-safe: CSV rows stay in browser memory, a deterministic retriever selects six rows, the Vercel Edge API sends only that evidence to a real LLM, and the UI exposes the retrieval trace. The prompt treats catalog rows as untrusted data, rejects unsupported claims, and requires `[SKU, row N]` citations.
+
+The AI path is deliberately **zero-cost: no card or paid account is required**. It prefers the GitHub Models free tier when `GITHUB_MODELS_TOKEN` is configured and otherwise uses the free, open-source [Pollinations](https://github.com/pollinations/pollinations) model gateway. The provider is disclosed in each answer. GitHub Models limits requests, tokens and concurrency by tier; check its [current official free limits](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits).
 
 ## Main features
 
@@ -39,6 +51,7 @@ The current enrichment engine is deliberately rule-based Java code. It does not 
 | Area | Technology |
 | --- | --- |
 | Frontend | Next.js 16, React 19, TypeScript, Tailwind CSS 4, shadcn/ui |
+| AI | RAG, GitHub Models free tier, Pollinations fallback, evidence citations |
 | Forms and data | React Hook Form, Zod, SWR, TanStack Table |
 | Backend | Java 21, Spring Boot 4, Spring Web MVC, Spring Data JPA |
 | Database | PostgreSQL 17, Flyway migrations |
@@ -149,6 +162,7 @@ Docker Compose uses PostgreSQL and waits for its health check before starting th
 | Variable | Used by | Purpose | Local default |
 | --- | --- | --- | --- |
 | `NEXT_PUBLIC_API_URL` | Web | Public base URL of the REST API | `http://localhost:8080` |
+| `GITHUB_MODELS_TOKEN` | Edge API | Optional token with `models:read`; Pollinations is used when absent | none |
 | `DB_URL` | API local/Docker | Full JDBC connection URL | embedded H2 URL |
 | `DB_HOST` | API production | Render PostgreSQL host | none |
 | `DB_PORT` | API production | PostgreSQL port | `5432` |
@@ -198,7 +212,9 @@ The Next.js app is live on Vercel at [catalogflow-two.vercel.app](https://catalo
 
 - CatalogFlow is a public portfolio demo without authentication, roles, organizations, or payments.
 - Imports are limited to 5 MB and the documented four-column CSV format.
-- Suggestions use a small readable keyword-rule set and are English-only.
+- Deterministic enrichment suggestions use a small readable keyword-rule set and are English-only.
+- Catalog AI uses transparent lexical retrieval instead of a vector database at this demonstration scale.
+- Free model gateways can rate-limit or change availability; GitHub Models is the preferred configured provider.
 - Audit values are stored as compact JSON text for readability rather than queried as analytics data.
 - The service is designed for demonstration-scale catalogs, not high-volume batch processing.
 

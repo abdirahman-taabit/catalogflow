@@ -22,8 +22,8 @@ const benefits = [
   {
     icon: SlidersHorizontalIcon,
     index: "02",
-    title: "Review transparent rules",
-    description: "Every suggestion explains the deterministic rules behind it. Nothing changes without approval.",
+    title: "Ask grounded questions",
+    description: "AI answers cite the exact catalog rows behind them. Nothing changes without approval.",
   },
   {
     icon: ShieldCheckIcon,
@@ -50,7 +50,7 @@ export default function HomePage() {
             </a>
           </Button>
           <Button size="sm" asChild>
-            <Link href="/dashboard">Open demo</Link>
+            <Link href="/ai">Open demo</Link>
           </Button>
         </div>
       </header>
@@ -151,7 +151,7 @@ export default function HomePage() {
             {[
               ["01", "Upload", "Choose a standard product CSV."],
               ["02", "Validate", "See invalid rows and duplicate SKUs."],
-              ["03", "Review", "Compare original and suggested values."],
+              ["03", "Review", "Query live catalog data with row-level citations."],
               ["04", "Decide", "Approve or reject with a recorded audit event."],
             ].map(([index, title, text]) => (
               <div key={index} className="border-t-2 border-primary bg-card p-5">

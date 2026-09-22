@@ -27,3 +27,8 @@ Controllers only translate HTTP input and output. Services contain the import, q
 Flyway applies ordered SQL migrations before Hibernate validates the entity mappings. The production profile connects to Render PostgreSQL; the default local profile uses H2 for a low-friction standalone start.
 
 Important writes also call `AuditService`. Approvals store before-and-after values, while imports and rejections store the event details needed by the activity timeline.
+
+
+## Catalog AI RAG path
+
+`/ai` is stateless for Vercel. CSV rows remain in browser memory for the session. The Edge route validates the payload, retrieves a bounded evidence set, builds a constrained prompt, calls the model, and returns the answer plus exact source rows. The LLM read path is separate from the Spring Boot approval and audit write path.

@@ -6,9 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CatalogFlow — Catalog enrichment you can review",
+  title: "CatalogFlow — Grounded catalog intelligence",
   description:
-    "Upload a product catalog, surface quality problems, and approve transparent rule-based improvements.",
+    "Ask natural-language questions over catalog data with grounded answers, row citations, and human approval.",
 };
 
 export default function RootLayout({

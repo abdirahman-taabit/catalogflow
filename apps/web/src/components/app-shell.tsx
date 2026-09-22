@@ -6,6 +6,7 @@ import {
   PackageIcon,
   SquaresFourIcon,
   UploadSimpleIcon,
+  SparkleIcon,
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,6 +16,7 @@ import { Brand } from "@/components/brand";
 import { cn } from "@/lib/utils";
 
 const navigation = [
+  { href: "/ai", label: "Catalog AI", icon: SparkleIcon },
   { href: "/dashboard", label: "Overview", icon: SquaresFourIcon },
   { href: "/products", label: "Products", icon: PackageIcon },
   { href: "/imports", label: "Imports", icon: UploadSimpleIcon },
@@ -58,7 +60,7 @@ export function AppShell({ children, title, action }: AppShellProps) {
           })}
         </nav>
         <div className="mt-auto border-t border-sidebar-border px-2 pt-4 text-xs leading-5 text-[#abb0a8]">
-          <p className="font-medium text-white">Rule-based enrichment</p>
+          <p className="font-medium text-white">RAG + human review</p>
           <p>System healthy</p>
           <Link
             href="/"
@@ -88,7 +90,7 @@ export function AppShell({ children, title, action }: AppShellProps) {
       </div>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 grid h-[70px] grid-cols-4 border-t border-border bg-card lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 grid h-[70px] grid-cols-5 border-t border-border bg-card lg:hidden"
         aria-label="Mobile navigation"
       >
         {navigation.map((item) => {
